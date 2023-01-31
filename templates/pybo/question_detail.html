@@ -1,32 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
-    <!--Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
-    <script src="{% static 'common.js' %}"></script>
-    <script>
-        function doSave(){
-            <!--console.log('doSave');-->
-            let frm =document.answer_frm;
-            let content = frm.content.value;
-            console.log('content'+content);
-            if(isEmpty(content) == true){
-                alert('내용을 입력 하세요');
-                frm.content.focus();
-                return ;
-            }
-
-            //서버로 전송
-            frm.submit();
-        }
-
-    </script>
-    <title>질문 답변</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
   <!-- container -->
   <div class="container">
       <!--질문 py: 상하패딩!-->
@@ -76,6 +49,21 @@
       <!--답변 등록 end---------------------------------->
   </div>
   <!-- container end----------------------------------->
+    <script>
+        function doSave(){
+            <!--console.log('doSave');-->
+            let frm =document.answer_frm;
+            let content = frm.content.value;
+            console.log('content'+content);
+            if(isEmpty(content) == true){
+                alert('내용을 입력 하세요');
+                frm.content.focus();
+                return ;
+            }
 
-</body>
-</html>
+            //서버로 전송
+            frm.submit();
+        }
+
+    </script>
+    {% endblock%}
