@@ -1,0 +1,38 @@
+
+    {% extends 'base.html' %}
+    {% block content %}
+    <!-- container-->
+    <div class="container">
+        <!-- 제목 -->
+        <div class="text-start mb-5">
+            <h2>질문목록</h2>
+        </div>
+        <!-- 제목 end-->
+        <table class="table table-striped table-hover table-bordered table-sm">
+            <thead>
+               <tr class="table-dark">
+                <th scope="col" class="text-center">No.</th>
+                <th scope="col" class="text-center">제목</th>
+                <th scope="col" class="text-center">작성일</th>
+               </tr>
+            </thead>
+            <tbody>
+            {% if question_list %}
+                {% for question in question_list  %}
+                    <tr>
+                        <td class="text-center">{{forloop.counter}}</td> <!-- 가운데 정렬 -->
+                        <td class="text-start"><a href="{% url 'pybo:detail' question.id %}">{{question.subject}}</a></td> <!-- 왼쪽 정렬 -->
+                        <td class="text-center">{{question.create_date|date:"Y-m-d"}}</td>
+                    </tr>
+                {% endfor  %}
+            {% else %}
+                    <tr>
+                        <td colspan="99">질문이 없습니다.</td>
+                    </tr>
+            {% endif %}
+            </tbody>
+        </table>
+        {% csrf_token %}
+    </div>
+    <!-- container end-->
+    {% endblock%}
