@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 
   {% extends 'base.html' %}
   {% block content %}
-=======
-{% extends 'base.html' %}
-{% block content %}
->>>>>>> pcwk
   <!-- container -->
   <div class="container">
       <!--질문 py: 상하패딩!-->
@@ -86,25 +81,4 @@
     </script>
   </div>
   <!-- container end----------------------------------->
-<<<<<<< HEAD
   {% endblock%}
-=======
-    <script>
-        function doSave(){
-            <!--console.log('doSave');-->
-            let frm =document.answer_frm;
-            let content = frm.content.value;
-            console.log('content'+content);
-            if(isEmpty(content) == true){
-                alert('내용을 입력 하세요');
-                frm.content.focus();
-                return ;
-            }
-
-            //서버로 전송
-            frm.submit();
-        }
-
-    </script>
-    {% endblock%}
->>>>>>> pcwk
