@@ -3,7 +3,52 @@ from django.http import HttpResponse, HttpResponseNotAllowed
 from django.utils import timezone
 from .models import Question
 from .forms import QuestionForm, AnswerForm
+from bs4 import BeautifulSoup
+import requests
 import logging
+
+
+def crawling_cgv(request):
+   ''' CGV 무비차트 '''
+   url = 'http://www.cgv.co.kr/movies/?lt=1&ft=0'
+   response = requests.get(url)
+
+   context = {}
+   if 200 == response.status_code:
+      html = response.text
+      # print('html:{}'.format(html))
+      # box-contents
+      soup = BeautifulSoup(html, 'html.parser')
+      # 제목
+      title = soup.select('div.box-contents strong.title')
+
+      reserve = soup.select('div.score strong.percent span')
+      # print('title:{}'.format(title))
+      
+      poster = soup.select('span.thumb-image img')
+
+      title_list = []   #제목
+      reserve_list = [] #예매율
+      poster_list = [] #포스터
+      for page in range(0, 7, 1):
+         posterImg = poster[page]
+         imgUrlPath = posterImg.get('src')  # <img src='' /> 에 접근
+         # print('imgUrlPath:{}'.format(imgUrlPath))
+         title_list.append(title[page].getText())
+         reserve_list.append(reserve[page].getText())
+         poster_list.append(imgUrlPath)
+         print('title[page]:{},{},{}'.format(title[page].getText()
+                                             , reserve[page].getText()
+                                             , imgUrlPath
+                                             ))
+         pass
+      #화면에 title을 []전달
+      context = {'title': title_list,'reserve':reserve_list,'poster':poster_list}
+   else:
+      print('접속 오류 response.status_code:{}'.format(response.status_code))
+   pass
+
+   return render(request, 'pybo/crawling_cgv.html', context)
 
 def question_create(request):
    '''질문등록'''

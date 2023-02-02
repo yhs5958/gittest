@@ -1,15 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta  name="viewport" content="width=device-width,initial-scale=1.0">
-    {% load static %} <!--css, js, images 로링 최상단에 위치!  -->
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
-    <!--Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap.min.css' %}">
-    <title>질문목록</title>
-</head>
-<body>
+    {% extends 'base.html' %}
+    {% block content %}
     <!-- container-->
     <div class="container">
         <!-- 제목 -->
@@ -51,5 +41,4 @@
 
     </div>
     <!-- container end-->
-</body>
-</html>
+    {% endblock %}
