@@ -8,14 +8,82 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 
+from selenium import webdriver
+import time
+from selenium.webdriver.common.by import By
+
+
+
 
 class Crawling(unittest.TestCase):
     def setUp(self):
+       #webdriver  Firefox 객체 생성
+       self.brower = webdriver.Firefox(executable_path='C:\BIG_AI0102\01_PYTHON\app\geckodriver.exe')
        print('setUp')
 
     def tearDown(self):
-        print('tearDown')
+        logging.info('tearDown')
+        #self.brower.quit()  #webdriver 종료
 
+    @unittest.skip('test_sel')
+    def test_sel(self):
+        self.brower.get('http://127.0.0.1:8000/pybo/2/')
+        print('brower.title:{}'.format(self.brower.title))
+        self.assertIn('Pybo', self.brower.title)
+
+        textarea=self.brower.find_element(By.ID, 'content')
+        textarea.send_keys('데이터 입력')
+        time.sleep(5)
+        btn = self.brower.find_element(By.ID, 'submit_btn')
+        btn.click()
+
+
+
+
+    def test_naver(self):
+        '''https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fwww.naver.com'''
+        self.brower.get('https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fwww.naver.com')
+
+        #id
+        id_textinput = self.brower.find_element(By.ID, 'id')
+        id_textinput.send_keys('good_day')
+
+        #비번
+        pw_textinput = self.brower.find_element(By.ID, 'pw')
+        pw_textinput.send_keys('4321')
+
+        #버튼
+        #
+        btn_login = self.brower.find_element(By.ID, 'log.login')
+        btn_login.click()  # 버튼 클릭
+        pass
+
+    @unittest.skip('test_selenium')
+    def test_selenium(self):
+        #FireFox 웹 드라이버 객체에게 Get을 통하여 네이버의 http요청을 하게 함.
+        self.brower.get('http://127.0.0.1:8000/pybo/9/')
+        print('self.brower.title:{}'.format(self.brower.title))
+        self.assertIn('Pybo',self.brower.title)
+
+        content_textarea=self.brower.find_element(By.ID,'content')
+        content_textarea.send_keys('오늘은 아주 즐거운 금요일!')
+
+        btn=self.brower.find_element(By.ID,'submit_btn')
+        btn.click() # 버튼 클릭
+        pass
+
+    @unittest.skip('test_zip')
+    def test_zip(self):
+        ''' 여러개의 list를 묶어서 하나의 iterable객체로 다룰수 있게 한다. '''
+        intergers = [1,2,3]
+        letters   = ['a','b','c']
+        floats    = [4.0,8.0, 10.0]
+        zipped = zip(intergers,letters,floats)
+        list_data = list(zipped)
+        print('list_data:{}'.format(list_data))
+        pass
+
+    @unittest.skip('test_naver_stock')
     def test_naver_stock(self):
         '''주식 크롤링'''
         codes = {'삼성전자':'005930', '현대차':'005380'}

@@ -129,6 +129,9 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+TESTING_MODE = True
+
 LOGGING = {
 	    'version': 1,
 	    'disable_existing_loggers': False,
@@ -158,6 +161,13 @@ LOGGING = {
 	                },
 	        # 콘솔(터미널)에 출력
 	        'console': {
+	            'level': 'INFO',
+	            'filters': ['require_debug_true'],
+	            'class': 'logging.StreamHandler',
+                'formatter': 'format1',
+	        },
+	        # testing 출력
+	        'testing': {
 	            'level': 'INFO',
 	            'filters': ['require_debug_true'],
 	            'class': 'logging.StreamHandler',

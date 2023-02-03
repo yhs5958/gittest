@@ -1,6 +1,9 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render,get_object_or_404,redirect
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.utils import timezone
+
+
 from .models import Question
 from .forms import QuestionForm, AnswerForm
 from bs4 import BeautifulSoup
@@ -8,10 +11,14 @@ import requests
 import logging
 
 
+
+
 def crawling_cgv(request):
    ''' CGV 무비차트 '''
    url = 'http://www.cgv.co.kr/movies/?lt=1&ft=0'
    response = requests.get(url)
+
+
 
    context = {}
    if 200 == response.status_code:
@@ -43,7 +50,9 @@ def crawling_cgv(request):
                                              ))
          pass
       #화면에 title을 []전달
-      context = {'title': title_list,'reserve':reserve_list,'poster':poster_list}
+      #context = {'title': title_list,'reserve':reserve_list,'poster':poster_list,'range': range(0,8)}
+      context = {'context':zip(title_list,reserve_list,poster_list)}
+
    else:
       print('접속 오류 response.status_code:{}'.format(response.status_code))
    pass
@@ -64,7 +73,7 @@ def question_create(request):
          question=form.save(commit=False) # subject, content만 저장(commit은 하지 않음)
          question.create_date = timezone.now()
          question.save() #날짜 까지 생성해서 저장(Commit)
-         return redirect("pybo:index")
+         return redirect("pybo:1")
    else:
       form = QuestionForm()
    context = {'form': form}
@@ -117,12 +126,34 @@ def detail(request,question_id):
 def index(request):
    '''question 목록'''
    #list order create_date desc
-   logging.info('index 레벨로 출력')
+
    #logging.info('index 레벨로 출력')
+
+   #입력인자: http://127.0.0.1:8000/pybo/2
+   page=request.GET.get('page','1') #페이지
+   logging.info('page:{}'.format(page))
+
    question_list= Question.objects.order_by('-create_date') #order_by('-필드') desc, asc order_by('필드')
+   #paging
+   paginator=Paginator(question_list,10)
+   page_obj=paginator.get_page(page)
+
+   # paginator.count : 전체 개시물 개수
+   # paginator.per_page : 페이지당 보여줄 게시물 개수
+   # paginator.page_range : 페이지범위
+   # number: 현재 페이지 번호
+   # previous_page_number: 이전 페이지 번호
+   # next_page_number: 다음 페이지 번호
+   # has_previous : 이전 페이지 유무
+   # has_next : 다음 페이지 유무
+   # start_index :현재 페이지 시작 인덱스(1부터 시작)
+   # end_index: 현재 페이지 끝 인덱스
+
+
    #question_list = Question.objects.filter(id=99)  # order_by('-필드') desc, asc order_by('필드')
-   context = {'question_list' : question_list}
-   logging.info('question_list:{}'.format(question_list))
+
+   context = {'question_list' : page_obj}
+   logging.info('question_list:{}'.format(page_obj))
    
    return render(request,'pybo/question_list.html',context)
 
