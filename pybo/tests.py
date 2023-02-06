@@ -11,7 +11,8 @@ from urllib.request import urlopen
 from selenium import webdriver
 import time
 from selenium.webdriver.common.by import By
-
+import pyperclip #클립보드를 쉽게 활용할 수 있게 해주는 모듈
+from selenium.webdriver.common.keys import Keys  #Ctrl+c, Crtrl+v
 
 
 
@@ -25,6 +26,34 @@ class Crawling(unittest.TestCase):
         logging.info('tearDown')
         #self.brower.quit()  #webdriver 종료
 
+
+    def test_clipboard_naver(self):
+        ''' clipboard를 통한 naver login '''
+        self.brower.get('https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fwww.naver.com')
+        user_id ='아이디'
+        user_pw ='비번'
+
+        #id
+        id_textinput = self.brower.find_element(By.ID,'id')
+        id_textinput.click()
+        #클립보드로 copy
+        pyperclip.copy(user_id)
+        id_textinput.send_keys(Keys.CONTROL,'v')  #클립보드에서 id textinput으로 copy
+        time.sleep(1)
+
+        #password
+        pw_textinput = self.brower.find_element(By.ID,'pw')
+        pw_textinput.click()
+        pyperclip.copy(user_pw)
+        pw_textinput.send_keys(Keys.CONTROL,'v') #Keys.COMMAND : mac
+        time.sleep(1)
+
+        #로그인 버트
+        btn_login=self.brower.find_element(By.ID, 'log.login')
+        btn_login.click()
+
+        pass
+
     @unittest.skip('test_sel')
     def test_sel(self):
         self.brower.get('http://127.0.0.1:8000/pybo/2/')
@@ -37,9 +66,7 @@ class Crawling(unittest.TestCase):
         btn = self.brower.find_element(By.ID, 'submit_btn')
         btn.click()
 
-
-
-
+    @unittest.skip('test_selenium')
     def test_naver(self):
         '''https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fwww.naver.com'''
         self.brower.get('https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fwww.naver.com')
