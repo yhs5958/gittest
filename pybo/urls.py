@@ -17,7 +17,11 @@ urlpatterns = [
     path('<int:question_id>/',views.detail, name='detail'),
     path('answer/create/<int:question_id>/',views.answer_create, name='answer_create'),
     path('question/create/',views.question_create, name='question_create'),
+    #pybo:question_modify
+    path('question/modify/<int:question_id>/',views.question_modify, name='question_modify'),
 
+    #pybo:question_delete
+    path('question/delete/<int:question_id>/',views.question_delete, name='question_delete'),
 
     #temp menu
     path('boot/menu/',views.boot_menu, name='boot_menu'),

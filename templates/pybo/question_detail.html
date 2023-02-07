@@ -11,12 +11,33 @@
                 연속 공백을 하나로 합침. 줄바꿈은 개행 문자와 <br> 요소에서 일어나며,
                 한 줄이 너무 길어서 넘칠 경우 자동으로 줄을 바꿉니다.
           -->
+          <!--  message표시 -->
+          {% if messages %}
+          <div class="alert alert-danger" role="alert">
+              {% for message in  messages%}
+                <strong>{{message.tags}}</strong>
+                <ul>
+                    <li>{{message.message}}</li>
+                </ul>
+              {% endfor %}
+          </div>
+          {% endif %}
+          <!--  message표시 end-->
           <div class="card-text" style="white-space pre-line;">{{question.content}}</div>
           <div class="d-flex justify-content-end">
-              <div class="badge bg-light text-dark p-2">
-                  {{question.create_date}}
+              <div class="badge bg-light text-dark p-2 text-start">
+                  <div class="mb-2">{{question.author.username}}</div>
+                  <div>{{question.create_date}}</div>
               </div>
           </div>
+          <!--  질문 수정 -->
+          <div class="my-3">
+              {% if question.author == request.user %} <!--글쓴이와 로그인한 사용자가 동일 하면 -->
+                <a href="{% url 'pybo:question_modify' question.id  %}" class="btn btn-sm btn-outline-secondary">수정</a>
+                <a href="javascript:void(0);" data-uri="{% url 'pybo:question_delete' question.id %}" class="delete btn btn-sm btn-outline-secondary">삭제</a>
+              {% endif %}
+          </div>
+
       </div>
       <!--질문 end-------------------------------------->
 
@@ -31,8 +52,9 @@
           <div class="card-text" style="white-space pre-line;">{{answer.content}}</div>
           <!-- d-flex : bootstrap flexbox -->
           <div class="d-flex justify-content-end">
-              <div class="badge bg-light text-dark p-2">
-                  {{answer.create_date}}
+              <div class="badge bg-light text-dark p-2 text-start">
+                  <div class="mb-2">{{answer.author.username}}</div>
+                  <div>{{answer.create_date}}</div>
               </div>
           </div>
       </div>
@@ -47,13 +69,43 @@
         <!-- form validation기능 end -->
           <div class="mb-3">
             <label for="content" class="col-form-label">내용</label>
-            <textarea rows="10"  class="form-control" name="content" id="content"></textarea>
+            <textarea   rows="10"  class="form-control" name="content" id="content"></textarea>
           </div>
           <!--<input type="button" value="답변등록" class="btn btn-primary btn-sm" onclick="javascript:doSave();">-->
           <input type="submit" value="답변등록" class="btn btn-primary btn-sm" id="submit_btn">
       </form>
       <!--답변 등록 end---------------------------------->
-    <script>
+
+  </div>
+  <!-- container end----------------------------------->
+  {% endblock%}
+
+  {% block script %}
+     <script>
+        //삭제: getElementsByClassName 'delete' 클래스 이름으로 element찾기
+
+        //Array.from() 메서드는 유사 배열 객체(array-like object)나
+        //반복 가능한 객체(iterable object)를 얕게 복사해 새로운Array 객체를 만듭니다.
+
+        //const delete_elements = document.getElementsByClassName("delete");
+        //#class :. , id:#
+        //배열: querySelectorAll
+        //단건: querySelector
+        const delete_elements = document.querySelectorAll(".delete");
+
+        Array.from(delete_elements).forEach(function(element){
+               //click event 감지
+               element.addEventListener('click',function(){
+                    console.log('delete click');
+                    if(confirm('삭제 하시겠습니까?')){
+                       console.log('삭제 하시겠습니까?');
+                       //url호출
+                       console.log('this.dataset.uri:'+this.dataset.uri);
+                       location.href = this.dataset.uri;
+                    }
+               });
+        });
+
         function doSave(){
             <!--console.log('doSave');-->
             let frm =document.answer_frm;
@@ -70,6 +122,4 @@
         }
 
     </script>
-  </div>
-  <!-- container end----------------------------------->
-  {% endblock%}
+  {% endblock %}

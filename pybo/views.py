@@ -2,16 +2,56 @@ from django.core.paginator import Paginator
 from django.shortcuts import render,get_object_or_404,redirect
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.utils import timezone
-
+from django.contrib.auth.decorators import login_required
 
 from .models import Question
 from .forms import QuestionForm, AnswerForm
 from bs4 import BeautifulSoup
 import requests
 import logging
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 
 
+@login_required(login_url='common:login')
+def question_delete(request, question_id):
+   logging.info('1. question_delete')
+   logging.info('2. question_id:{}'.format(question_id))
+   question = get_object_or_404(Question, pk=question_id)
+
+   if request.user != question.author:
+      messages.error('삭제 권한이 없습니다.')
+      return redirect('pybo:detail',question_id=question.id )
+
+   question.delete() #삭제
+   return redirect('pybo:index')
+
+@login_required(login_url='common:login')
+def question_modify(request, question_id):
+   ''' 질문 수정 : login 필수'''
+   logging.info('1. question_modify')
+   question = get_object_or_404(Question, pk=question_id) #question id로 Question조회
+
+   #권한 check
+   if request.user != question.author:
+      messages.error(request,'수정 권한이 없습니다.')
+      return redirect('pybo:detail',question_id = question.id)
+
+   if request.method == 'POST':
+      logging.info('2.question_modify post')
+      form = QuestionForm(request.POST,instance=question)
+
+      if form.is_valid():
+         logging.info('3.form.is_valid():{}'.format(form.is_valid()))
+         question = form.save(commit=False) #질문 내용,
+         question.modify_date = timezone.now() #수정일시 저장
+         question.save()#수정일시 까지 생성해서 저장(Commit)
+         return redirect("pybo:detail",question_id = question.id)
+   else:
+      form = QuestionForm(instance=question) #get 수정할 데이터 전달!
+   context = {'form':form}
+   return render(request, 'pybo/question_form.html', context)
 
 def crawling_cgv(request):
    ''' CGV 무비차트 '''
@@ -59,6 +99,9 @@ def crawling_cgv(request):
 
    return render(request, 'pybo/crawling_cgv.html', context)
 
+
+
+@login_required(login_url='common:login') #로그인이 되어있지 않으면 login페이지로 이동
 def question_create(request):
    '''질문등록'''
    logging.info('1.request.method:{}'.format(request.method))
@@ -72,8 +115,12 @@ def question_create(request):
          logging.info('4.form.is_valid():{}'.format(form.is_valid()))
          question=form.save(commit=False) # subject, content만 저장(commit은 하지 않음)
          question.create_date = timezone.now()
+         question.author  = request.user # author 속성에 로그인 계정 저장
+
+         logging.info('4.question.author:{}'.format(question.author))
+
          question.save() #날짜 까지 생성해서 저장(Commit)
-         return redirect("pybo:1")
+         return redirect("pybo:index")
    else:
       form = QuestionForm()
    context = {'form': form}
@@ -90,6 +137,8 @@ def boot_list(request):
    ''' bootstrap template'''
    return render(request,'pybo/list.html')
 
+
+@login_required(login_url='common:login') #로그인이 되어있지 않으면 login페이지로 이동
 def answer_create(request, question_id):
    '''답변등록'''
    logging.info('answer_create question_id:{}'.format(question_id))
@@ -103,10 +152,15 @@ def answer_create(request, question_id):
          answer = form.save(commit=False)# content만 저장(commit은 하지 않음)
          answer.create_date = timezone.now()
          answer.question    = question
+         answer.author  = request.user # author 속성에 로그인 계정 저장
+
+         logging.info('3.answer.author:{}'.format(answer.author))
+
          answer.save() #최종 저장
          return redirect('pybo:detail',question_id=question.id)
    else:
-      return HttpResponseNotAllowed('Post만 가능 합니다.')
+      logging.info('1.else:{}')
+      form = AnswerForm()
 
    #form validation
    context = {'question':question,'form':form}
