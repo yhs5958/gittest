@@ -28,3 +28,6 @@ class Answer(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     #입력필드에 null 허용하기
     #author = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+
+    #수정일시 추가
+    modify_date = models.DateTimeField(null=True,blank=True)
