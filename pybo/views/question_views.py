@@ -18,6 +18,11 @@ from ..models import Question
 
 #ctrl+alt+o(alpa) : import 정리
 
+@login_required(login_url='common:login')
+def question_vote(request, question_id):
+   '''질문: 좋아요'''
+   logging.info('1. question_vote question_id:{}'.format(question_id))
+   pass
 
 
 @login_required(login_url='common:login')

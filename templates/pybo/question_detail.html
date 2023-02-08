@@ -43,6 +43,12 @@
           </div>
           <!--  질문 수정 -->
           <div class="my-3">
+              <!-- 좋아요 -->
+              <a href="javascript:void(0);"
+                 data-uri="{% url 'pybo:question_vote' question.id %}" class="recommend btn btn-sm btn-outline-secondary">
+                  좋아요<span class="badge rounded-pill bg-success">{{question.voter.count}}</span>
+              </a>
+
               {% if question.author == request.user %} <!--글쓴이와 로그인한 사용자가 동일 하면 -->
                 <a href="{% url 'pybo:question_modify' question.id  %}" class="btn btn-sm btn-outline-secondary">수정</a>
                 <a href="javascript:void(0);" data-uri="{% url 'pybo:question_delete' question.id %}" class="delete btn btn-sm btn-outline-secondary">삭제</a>
@@ -118,7 +124,6 @@
         //배열: querySelectorAll
         //단건: querySelector
         const delete_elements = document.querySelectorAll(".delete");
-
         Array.from(delete_elements).forEach(function(element){
                //click event 감지
                element.addEventListener('click',function(){
@@ -132,20 +137,19 @@
                });
         });
 
-        function doSave(){
-            <!--console.log('doSave');-->
-            let frm =document.answer_frm;
-            let content = frm.content.value;
-            console.log('content'+content);
-            if(isEmpty(content) == true){
-                alert('내용을 입력 하세요');
-                frm.content.focus();
-                return ;
-            }
+        //question: 좋아요 recommend
+        const recommend_elements = document.querySelectorAll(".recommend");
+        Array.from(recommend_elements).forEach(function(element){
+            element.addEventListener('click',function(){
+                 console.log('recommend click');
+                 if(confirm('좋아요 하시겠습니까?')){
+                     console.log('this.dataset.uri:'+this.dataset.uri);
+                     location.href = this.dataset.uri;
+                 }
 
-            //서버로 전송
-            frm.submit();
-        }
+            });
+        });
+
 
     </script>
   {% endblock %}
