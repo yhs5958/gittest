@@ -15,6 +15,8 @@ from ..models import Question
 
 #ctrl+alt+o(alpa) : import 정리
 
+
+
 def detail(request, question_id):
     '''question 상세'''
     logging.info('1.question_id:{}'.format(question_id))

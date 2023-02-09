@@ -16,6 +16,7 @@
             <thead>
                <tr class="table-dark">
                 <th scope="col" class="text-center">No.</th>
+                <th scope="col" class="text-center">좋아요</th>
                 <th scope="col" class="text-center" style="width: 50%;">제목</th>
                 <th scope="col" class="text-center">글쓴이</th>
                 <th scope="col" class="text-center">작성일</th>
@@ -27,6 +28,13 @@
                     <tr>
                         <!--일련번호 = 전체 글수 - 시작 인덱스 - 현재 인덱스 + 1 -->
                         <td class="text-center">{{ question_list.paginator.count|sub:question_list.start_index|sub:forloop.counter0|add:1   }}</td> <!-- 가운데 정렬 -->
+                        <td class="text-start">
+                            {% if question.voter.all.count > 0 %}
+                                <span class="badge rounded-pill bg-success px-2 py-1">
+                                    {{ question.voter.all.count }}
+                                </span>
+                            {% endif %}
+                        </td> <!--좋아요 -->
                         <td class="text-start"><a href="{% url 'pybo:detail' question.id %}">{{question.subject}}</a>
                             {% if question.answer_set.count > 0 %}  <!--답변이 있는 경우 -->
                                 <span class="text-danger small mx-2">{{question.answer_set.count}}</span>
@@ -69,7 +77,7 @@
               <a class="page-link" href="#">{{page_number}}</a>
           </li>
           {% else %}
-          <li class="page-item active" aria-current="page">
+          <li class="page-item " aria-current="page">
               <a class="page-link" href="?page={{page_number}}">{{page_number}}</a>
           </li>
           {% endif %}

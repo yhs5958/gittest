@@ -9,6 +9,9 @@ import logging
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
+from django.core.paginator import Paginator
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 
@@ -18,11 +21,59 @@ from ..models import Question
 
 #ctrl+alt+o(alpa) : import 정리
 
+
+def question_list_json(request):
+    '''question 목록'''
+    # list order create_date desc
+
+    # logging.info('index 레벨로 출력')
+
+    # 입력인자: http://127.0.0.1:8000/pybo/2
+    page = request.GET.get('page', '1')  # 페이지
+    logging.info('page:{}'.format(page))
+
+    question_list = Question.objects.order_by('-create_date')  # order_by('-필드') desc, asc order_by('필드')
+    # paging
+    paginator = Paginator(question_list, 10)
+    page_obj = paginator.get_page(page)
+
+    # paginator.count : 전체 개시물 개수
+    # paginator.per_page : 페이지당 보여줄 게시물 개수
+    # paginator.page_range : 페이지범위
+    # number: 현재 페이지 번호
+    # previous_page_number: 이전 페이지 번호
+    # next_page_number: 다음 페이지 번호
+    # has_previous : 이전 페이지 유무
+    # has_next : 다음 페이지 유무
+    # start_index :현재 페이지 시작 인덱스(1부터 시작)
+    # end_index: 현재 페이지 끝 인덱스
+
+    # question_list = Question.objects.filter(id=99)  # order_by('-필드') desc, asc order_by('필드')
+
+    #json_post = JsonResponse(question_list, safe=False, json_dumps_params={'ensure_ascii': False})
+    #객체 직열화 : json으로 변환
+    json_post = serializers.serialize('json', question_list)
+    #context = {'question_list': page_obj}
+    logging.info('question_list:{}'.format(json_post))
+    # 한글
+    return  HttpResponse(json_post, content_type="text/json-comment-filtered; charset=utf-8")
+
+
 @login_required(login_url='common:login')
 def question_vote(request, question_id):
    '''질문: 좋아요'''
    logging.info('1. question_vote question_id:{}'.format(question_id))
-   pass
+   question = get_object_or_404(Question, pk=question_id)
+
+   #본인 글은 추천 하지 못하게
+   if request.user == question.author:
+      logging.info('2. request.user:{}'.format(request.user))
+      logging.info('2. question.author:{}'.format(question.author))
+      messages.error(request, '본인이 작성한 글은 추천 할수 없습니다.')
+   else:
+      question.voter.add(request.user)
+
+   return redirect('pybo:detail',question_id=question.id)
 
 
 @login_required(login_url='common:login')

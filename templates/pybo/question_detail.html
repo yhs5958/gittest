@@ -1,5 +1,6 @@
 
   {% extends 'base.html' %}
+  {% load pybo_filter %}
   {% block content %}
   <!-- container -->
   <div class="container">
@@ -23,7 +24,7 @@
           </div>
           {% endif %}
           <!--  message표시 end-->
-          <div class="card-text" style="white-space pre-line;">{{question.content}}</div>
+          <div class="card-text" >{{ question.content|mark }}</div>
           <div class="d-flex justify-content-end">
               <!--수정자, 수정일 -->
               {% if question.modify_date %}
@@ -66,6 +67,8 @@
                 연속 공백을 하나로 합침. 줄바꿈은 개행 문자와 <br> 요소에서 일어나며,
                 한 줄이 너무 길어서 넘칠 경우 자동으로 줄을 바꿉니다.
           -->
+          <!-- answer_+answer.id -->
+          <a id="answer_{{answer.id}}"></a>
           <div class="card-text" style="white-space pre-line;">{{answer.content}}</div>
           <!-- d-flex : bootstrap flexbox -->
           <div class="d-flex justify-content-end">
@@ -84,10 +87,20 @@
               </div>
           </div>
           <div class="my-3">
+              <!-- 좋아요 -->
+              <a href="javascript:void(0);"
+                 data-uri="{% url 'pybo:answer_vote' answer.id %}" class="recommend btn btn-sm btn-outline-secondary">
+                  좋아요<span class="badge rounded-pill bg-success">{{answer.voter.count}}</span>
+              </a>
+
+              {% if request.user == answer.author %} <!-- 본인 글만 수정 삭제 -->
               <a href="{% url 'pybo:answer_modify' answer.id %}" class="btn btn-sm btn-outline-secondary">수정</a>
               <a href="#" class="delete btn btn-sm btn-outline-secondary"
                      data-uri="{% url 'pybo:answer_delete' answer.id %}"
               >삭제</a>
+
+              {% endif %}
+
           </div>
       </div>
       {% endfor %}
