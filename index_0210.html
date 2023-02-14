@@ -1,0 +1,981 @@
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+   rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+    <title>SOLAR EMBASSY</title>
+
+    <style>
+*{margin:0; padding:0;}
+
+html,body{
+    background-color: white;
+    height: 100%;
+    max-width: 1920px;
+    margin: 0 auto ;
+}
+ul{list-style: none;}
+a{text-decoration: none; color: white; display: block;}
+
+/*메인 컨테이너*/
+#SE_container{
+    width : 1920px;
+    background-color: #5B8FB9;
+    margin : 0 auto ;
+    position:relative;
+    transform: translate(0,0);
+}
+
+/*헤더*/
+#SE_header {
+    width: 100%;
+    height: 415px;
+    background-color: black;
+    text-align: center;
+    margin : 0 auto ;
+    position:relative;
+}
+
+/*메인 서비스 이미지*/
+#SE_img1 {
+    width: 1920px;
+    height: 415px;
+    margin: 0;
+    position:absolute;
+    transform:translate(-50%,-5%);
+}
+
+/*검색창, 로그인의 공간*/
+#SE_topline{
+    width: 100%;
+    height: 50px;
+    position: relative;
+    background-color: black;
+}
+
+        /*검색입력 칸*/
+        #SE_search-bar{
+            width: 300px;
+            height: 40px;
+            font-size: 11px;
+            position: absolute;
+            float: left;
+            transform: translate(720px,4px);
+            margin: 0;
+            border: 1px solid white;
+            border-radius: 5px;
+        }
+
+        /*검색 버튼*/
+        #SE_btn{
+            width: 60px;
+            height: 40px;
+            font-size: 11px;
+            font-weight: bold;
+            color: white;
+            position: absolute;
+            margin: 0;
+            float: left;
+            transform: translate(960px,4px);
+            border-radius: 5px;
+            border: 1px solid white;
+            background-color: #364959;
+        }
+
+        /*로그인 공간 */
+        #SE_login{
+            width: 300px;
+            height: 40px;
+            position: absolute;
+            transform: translate(1260px, 9px);
+            background-color: orange;
+            border-radius: 5px 5px 0 0;
+        }
+
+        /*로그인 공간 안의 버튼 3개.*/
+        .SE_logbtn{
+            margin:  10px 5px 5px 10px;
+            width: 80px;
+            height: 20px;
+            color: white;
+            font-size: 10px;
+            border-radius: 5px;
+            background-color: #364959;
+        }
+
+/*좌측 사이드바 영역값.*/
+#SE_left-sidebar {
+    background-color: #5164AA;
+    width: 360px;
+    height: 80px;
+    position: absolute;
+    transform: translate(0,49px);
+    margin: 0;
+    z-index: 3;
+}
+
+        /*사이드바 로그인 폼 세부 설정 및 애니메이션.*/
+        input[id="menuicon"] {display:none;}
+        input[id="menuicon"] + label {display:block;margin: 15px 0 0 290px;width:60px;height:40px;position:relative;cursor:pointer;} /*아이콘 선의 간격, 위치*/
+        input[id="menuicon"] + label span {display:block;position:absolute;width:100%;height:5px;border-radius:30px;background:gray;transition:all .35s;}/*아이콘 선 값*/
+        input[id="menuicon"] + label span:nth-child(1) {top:0;} /*첫째줄*/
+        input[id="menuicon"] + label span:nth-child(2) {top:50%;transform:translateY(-50%);} /* 비슷하게 사용할 수 있는 style top:calc(50% - 2.5px); margin-top:-2.5px;*/
+        input[id="menuicon"] + label span:nth-child(3) {bottom:0;} /*셋째줄*/
+        input[id="menuicon"]:checked + label {z-index:2;}
+        input[id="menuicon"]:checked + label span {background:#fff;} /*x 아이콘 색상.*/
+        input[id="menuicon"]:checked + label span:nth-child(1) {top:50%;transform:translateY(-50%) rotate(45deg);} /*첫줄 x형태로 변형*/
+        input[id="menuicon"]:checked + label span:nth-child(2) {opacity:0;} /* 가운데줄*/
+        input[id="menuicon"]:checked + label span:nth-child(3) {bottom:50%;transform:translateY(50%) rotate(-45deg);}/*셋째줄 X형태로 변형*/
+        div[class="SE_sidebar_profile"] {width:360px;height:530px; background:#4a6399be; border-bottom: 3px solid darkblue; border-right: 2px solid darkblue; position:fixed; top:80px; top:-1000px;z-index:1;transition:all .3s;} /*프로필 영역*/
+        input[id="menuicon"]:checked + label + div {top:80px;}
+
+
+        /*프로필 영역 설정 값.*/
+        .SE_sidebar_profile{
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+            padding-top: 20px;
+            z-index: 3;
+        }
+
+        /*프로필 사진*/
+        #SE_profileIMG{
+            padding-top:20px;
+            border:2px solid rgba(223, 223, 223, 0.315);
+            background-color: #00000021;
+        }
+
+        /*프로필 내부 설정 값.*/
+        .SE_sidebar_profile_in{
+            padding: 10px;
+            font: 15px/50px'';
+        }
+
+/*메인 컨테이너*/
+#SE_contents {
+    width: 1200px;
+    height: 2100px;
+    margin: 0;
+    background-color: rgb(100, 144, 180);
+    position: fixed;
+    transform: translate(360px,50px);
+}
+
+/*NAV BAR 메인 메뉴 영역.*/
+#SE_contents #SE_content1{
+    width: 1200px;
+    height: 80px;
+    margin: 0;
+}
+
+        /*NAV BAR 삽입 이미지*/
+        #SE_navIMG{
+            margin-top: 10px;
+        }
+
+        /*Nav bar 전체 크기*/
+        #SE_menu_wrap{
+            margin-bottom: 10px;
+            float: left;
+            width: 1200px;
+            height: 80px;
+            padding: 0;
+            position: relative;
+            transform: translate(0,-1px);
+            z-index: 3;
+        }
+
+        /*Nav bar 각 메뉴칸*/
+        .SE_top_menu{
+            background-color: #645CBB;
+            width: 200px;
+            height: 100%;
+            padding:0;
+            text-align: center;
+            float: left;
+            font: 20px/60px'';
+            /* transition-duration: 0.6s; */
+        }
+
+        /*드롭 다운 위치*/
+        .SE_sub_menu{
+            margin-top: -10px;
+            width: 100%;
+            height: 0;
+            overflow: hidden;
+            background-color: #a084dcbb;
+            padding: 0;
+            /* transition-duration: 0.1s; */
+        }
+
+        /*드롭다운 하위메뉴*/
+        .SE_sub_menu>li{
+            width: 100%;
+            height: 80px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+            box-sizing: border-box;
+            font: 18px/60px '';
+            padding: 0;
+        }
+
+        /*하위 메뉴들의 hover*/
+        .SE_top_menu.SE_top_menu:hover{
+            font: 18px/60px '';
+            height: 100%;
+            background-color: #bface2ce;
+        }
+
+        /*하위 메뉴 늘어나는 길이 hover*/
+        .SE_top_menu:hover>.SE_sub_menu{
+            height: 320px;
+            border-radius: 0 0 10px 10px;
+        }
+
+        /*하위 메뉴 각 항목의 hover*/
+        .SE_sub_menu>li:hover{
+            background-color: #ebc7e6a4;
+            transition-duration: 0.5s;
+        }
+
+        /*우측 임시 사이드 바*/
+        #SE_right-sidebar {
+            background-color: #5164AA;
+            width: 360px;
+            height: 80px;
+            margin: 0;
+            position: relative;
+            transform: translate(1200px, -81px);
+        }
+
+/*컨텐츠 이미지가 삽입되는 구역*/
+#SE_contents #SE_content2 {
+    background-image:url("#"); /*이미지 여기에 삽입*/
+    width: 1200px;
+    height: 270px;
+    position: relative;
+    transform: translate(0,-30%);
+}
+
+        /*컨텐츠 항목 1*/
+        #SE_contents #SE_content2 .s1{
+            position: absolute;
+            transform: translate(140px, 150px);
+        }
+
+        #SE_contents #SE_content2 .ss1{
+            font-size: 20px;
+            text-align: center;
+            color: yellow;
+        }
+
+        #SE_contents #SE_content2 .ss1:hover{
+            font-size: 22px;
+            font-weight: bold;
+            color: greenyellow;
+        }
+
+        /*컨텐츠 항목 2*/
+        #SE_contents #SE_content2 .s2{
+            position: absolute;
+            transform: translate(350px, 50px);
+        }
+
+        #SE_contents #SE_content2 .ss2{
+            font-size: 20px;
+            text-align: center;
+            color: ivory;
+        }
+
+        #SE_contents #SE_content2 .ss2:hover{
+            font-size: 22px;
+            font-weight: bold;
+            color: pink;
+        }
+
+        /*컨텐츠 항목 3*/
+        #SE_contents #SE_content2 .s3{
+            position: absolute;
+            transform: translate(455px, 180px);
+        }
+
+        #SE_contents #SE_content2 .ss3{
+            font-size: 20px;
+            text-align: center;
+            color: ivory;
+        }
+
+        #SE_contents #SE_content2 .ss3:hover{
+            font-size: 22px;
+            font-weight: bold;
+            color: pink;
+        }
+
+        /*컨텐츠 항목 4*/
+        #SE_contents #SE_content2 .s4{
+            position: absolute;
+            transform: translate(670px, 135px);
+        }
+
+        #SE_contents #SE_content2 .ss4{
+            font-size: 20px;
+            text-align: center;
+            color: navy;
+        }
+
+        #SE_contents #SE_content2 .ss4:hover{
+            font-size: 22px;
+            font-weight: bold;
+            color: navy;
+        }
+
+        /*컨텐츠 항목 5*/
+        #SE_contents #SE_content2 .s5{
+            position: absolute;
+            transform: translate(950px, 50px);
+        }
+
+        #SE_contents #SE_content2 .ss5{
+            font-size: 20px;
+            text-align: center;
+            color: darkorange;
+        }
+
+        #SE_contents #SE_content2 .ss5:hover{
+            font-size: 22px;
+            font-weight: bold;
+            color: purple;
+        }
+
+        /*컨텐츠 항목 6*/
+        #SE_contents #SE_content2 .s6{
+            position: absolute;
+            transform: translate(1080px, 190px);
+        }
+
+        #SE_contents #SE_content2 .ss6{
+            font-size: 20px;
+            text-align: center;
+            color: blue;
+        }
+
+        #SE_contents #SE_content2 .ss6:hover{
+            font-size: 22px;
+            font-weight: bold;
+            color: aqua;
+        }
+
+
+/*BEST, 인기순위플래닛 표시영역*/
+#SE_contents #SE_content3 {
+    width: 1200px;
+    height: 280px;
+    position:relative;
+    transform: translate(0,-30%);
+    margin: 0 auto;
+    z-index: 1;
+}
+
+        /*BEST 플래닛*/
+        #SE_contents #SE_content3 #SE_BEST_list{
+            background-color:#A3C7D6;
+            width: 760px;
+            height: 260px;
+            border-radius: 5px;
+        }
+
+        /*BEST 플래닛 제목*/
+        #SE_contents #SE_content3 #SE_BEST_list #SE_BEST_list_title {
+            height: 30px;
+            margin: 10px 0 0 10px;
+        }
+
+        /*섬네일들 영역 */
+        #SE_contents #SE_content3 #SE_BEST_list #SE_thumbnails{
+            background-color: white;
+            width: 760px;
+            height: 210px;
+            margin-top: 10px;
+            position: absolute;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* 각 섬네일 */
+        #SE_contents #SE_content3 #SE_BEST_list #SE_thumbnails .SE_BEST{
+            width: 160px;
+            height: 190px;
+            display: flex;
+            border-radius: 5px;
+            background-color: gray;
+            margin: 10px 10px 0 10px;
+        }
+
+        /* 섬네일 이미지 부분.*/
+        #SE_contents #SE_content3 #SE_BEST_list #SE_thumbnails .SE_BEST .BEST_thumbnail{
+            background-color: white;
+            border: 1px solid black;
+            width: 150px;
+            height: 130px;
+            display: flex;
+            margin: 5px 0 0 5px;
+        }
+
+        /* 섬네일 내용 부분.*/
+        #SE_contents #SE_content3 #SE_BEST_list #SE_thumbnails .SE_BEST .BEST_substance{
+            border: 1px solid black;
+            width: 150px;
+            height: 50px;
+            display: flex;
+            margin-top: 130px;
+            text-align: center;
+        }
+
+        /*인기순위 플래닛*/
+        #SE_contents #SE_content3 #SE_sub2 {
+            background-color: #A3C7D6;
+            width: 420px;
+            height: 260px;
+            margin-top: 10px;
+            margin-left: 20px;
+            border-radius: 5px;
+            position: absolute;
+            transform: translate(760px, -270px);
+            z-index: 1;
+        }
+
+        /*제목*/
+        #SE_contents #SE_content3 #SE_sub2 .SE_ranking_title{
+            font-size: 20px;
+            border-radius: 5px;
+            margin: 10px 0 0 20px;
+            float: left;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /*인기순위 내용*/
+        #SE_contents #SE_content3 #SE_sub2 .SE_ranking {
+            width: 400px;
+            height: 210px;
+            border-radius: 5px;
+            margin: 40px 10px 10px 10px;
+            background-color: white;
+        }
+
+/*최근 생성된 플래닛, 분류별 의 영역*/
+#SE_contents #SE_content4 {
+    width: 1200px;
+    height: 360px;
+    position: absolute;
+    font-size: 20px;
+}
+
+        /*최근 생성된 플래닛*/
+        #SE_contents #SE_content4 #SE_sub3 {
+            background-color: #A6DFFF;
+            width: 590px;
+            height: 330px;
+            margin-top: 15px;
+            border-radius: 5px;
+            position: absolute;
+        }
+
+        /*제목*/
+        #SE_contents #SE_content4 #SE_sub3 .SE_new_post_title{
+            height: 30px;
+            margin: 10px 0 0 10px;
+        }
+
+        /*내용*/
+        #SE_contents #SE_content4 #SE_sub3 .SE_new_post{
+            background-color: white;
+            width: 570px;
+            height: 280px;
+            border-radius: 5px;
+            margin: 0 0 0 10px;
+        }
+
+        /*분류별 플래닛*/
+        #SE_contents #SE_content4 #SE_sub4 {
+            background-color: #A6DFFF;
+            width: 590px;
+            height: 330px;
+            margin-top: 15px;
+            margin-left: 20px;
+            border-radius: 5px;
+            position: absolute;
+            transform: translate(590px, 0);
+        }
+
+        /* 분류별 플래닛 게시판 선택 영역 */
+        .SE_sub4_title{
+            background-color:bisque;
+            width: 570px;
+            height: 30px;
+            margin-top: 10px;
+            margin-left: 10px;
+            padding: 0;
+            border-radius: 8px;
+            z-index: 1;
+        }
+
+        /* 분류별 플래닛 게시판 선택 라인*/
+        .SE_sub4_menu{
+            width: 85px;
+            height: 30px;
+            margin-left: 10px;
+            float: left;
+            text-align: center;
+            transition-duration: 0.3s;
+        }
+
+        /* 분류별 플래닛 게시판 선택 라인 글자*/
+        .SE_sub4_menu .bp1{
+            color: blue;
+            font: 15px/30px'';
+        }
+
+        /* 분류별 플래닛 게시판 각 항목 hover*/
+        .SE_sub4_menu:hover{
+            background-color: #f595e8e8;
+        }
+
+        /* 분류별 플래닛 게시판 선택 라인 글자 hover*/
+        .SE_sub4_menu .bp1:hover{
+            color: hotpink;
+            font: 15px/30px'';
+        }
+
+        /*내용영역*/
+        #SE_contents #SE_content4 #SE_sub4 .SE_sub4_content{
+            background-color: white;
+            width: 570px;
+            height: 270px;
+            border-radius: 5px;
+            margin: 10px 0 0 10px;
+        }
+
+/*임시게시판1,2의 영역*/
+#SE_contents #SE_content5 {
+    height: 360px;
+    width: 1200px;
+    position: relative;
+    transform: translate(0,360px);
+}
+
+        /*_임시게시판1 영역*/
+        #SE_contents #SE_content5 #SE_sub5 {
+            background-color: #61b9ec;
+            width: 590px;
+            height: 330px;
+            margin-top: 10px;
+            border-radius: 5px;
+            position: absolute;
+            transform: translate(0,0);
+        }
+
+        /*제목 영역*/
+        #SE_contents #SE_content5 #SE_sub5 .SE_board1_title{
+            height: 30px;
+            margin: 10px 0 0 10px;
+        }
+
+        /*게시판*/
+        #SE_contents #SE_content5 #SE_sub5 .SE_board1{
+            background-color: white;
+            width: 570px;
+            height: 280px;
+            border-radius: 5px;
+            margin: 0 0 0 10px;
+        }
+
+/*임시게시판2 영역*/
+#SE_contents #SE_content5 #SE_sub6 {
+    background-color: #A6DFFF;
+    width: 590px;
+    height: 330px;
+    margin-top: 10px;
+    margin-left: 20px;
+    border-radius: 5px;
+    position: absolute;
+    transform: translate(590px,0);
+}
+
+        /*제목 영역*/
+        #SE_contents #SE_content5 #SE_sub6 .SE_board2_title{
+            height: 30px;
+            margin: 10px 0 0 10px;
+        }
+
+        /*게시판*/
+        #SE_contents #SE_content5 #SE_sub6 .SE_board2{
+            background-color: white;
+            width: 570px;
+            height: 280px;
+            border-radius: 5px;
+            margin: 0 0 0 10px;
+        }
+
+/*임시 게시판3의 영역*/
+#SE_contents #SE_content6 {
+    width: 1200px;
+    height: 360px;
+    position: relative;
+    transform: translate(0,360px);
+}
+
+/*임시게시판3*/
+        #SE_contents #SE_content6 #SE_sub7 {
+            background-color: #A6DFFF;
+            width: 1200px;
+            height: 330px;
+            margin-top: 10px;
+            border-radius: 5px;
+            position: absolute;
+            transform: translate(0,0);
+        }
+
+        /*제목 영역*/
+        #SE_contents #SE_content6 #SE_sub7 .SE_board3_title{
+            height: 30px;
+            margin: 10px 0 0 10px;
+        }
+
+        /*게시판*/
+        #SE_contents #SE_content6 #SE_sub7 .SE_board3{
+            background-color: white;
+            width: 1180px;
+            height: 280px;
+            border-radius: 5px;
+            margin: 0 0 0 10px;
+        }
+
+/*임시게시판 4의 영역*/
+#SE_contents #SE_content7 {
+    width: 1200px;
+    height: 360px;
+    position: relative;
+    transform: translate(0,360px);
+}
+
+        /*임시게시판4*/
+        #SE_contents #SE_content7 #SE_sub8 {
+            background-color: #A6DFFF;
+            width: 1200px;
+            height: 330px;
+            margin-top: 10px;
+            border-radius: 5px;
+            position: absolute;
+            transform: translate(0,5px);
+        }
+
+        /*제목 영역*/
+        #SE_contents #SE_content7 #SE_sub8 .SE_board4_title{
+            height: 30px;
+            margin: 10px 0 0 10px;
+        }
+
+        /*게시판*/
+        #SE_contents #SE_content7 #SE_sub8 .SE_board4{
+            background-color: white;
+            width: 1180px;
+            height: 280px;
+            border-radius: 5px;
+            margin: 0 0 0 10px;
+        }
+
+        /*좌측 공간5 여백 (배너 자리)*/
+        #SE_contents2{
+            width: 360px;
+            height: 2100px;
+            position: absolute;
+            transform: translate(0,130px);
+        }
+
+/*배너(좌)*/
+#SE_banner1{
+    width:340px;
+    height: 900px;
+    border-radius: 10px;
+    border: 1px solid hotpink;
+    margin: 200px 0 0 10px;
+
+}
+
+/*우측 공간 여백 (배너 자리)*/
+#SE_contents3{
+    width: 360px;
+    height: 2100px;
+    position: absolute;
+    transform: translate(1560px,130px);
+}
+
+/*배너(우)*/
+#SE_banner2{
+    width:340px;
+    height: 900px;
+    border-radius: 10px;
+    border: 1px solid hotpink;
+    margin: 200px 0 0 10px;
+
+}
+
+/*footer 영역*/
+#SE_footer{
+    background-color: Black;
+    width: 100%;
+    height: 110px;
+    float: left;
+    position: absolute;
+    transform: translate(0,2140px);
+    text-align: center;
+    color: white;
+    font: 18px/80px '';
+    z-index: 2;
+}
+
+        #SE_footer a {
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        #board_title{
+            font-size: 20px;
+            color: black;
+        }
+        #board_title{
+            font-size: 20px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+<div id="SE_container">
+    <header id="SE_header">
+        <h6>메인이미지</h6>
+        <img id="SE_img1" src="#" alt="">
+    </header>
+
+    <div id="SE_topline">
+        <form>
+            <!--검색-->
+            <div id="SE_search">
+                <input type="text" id="SE_search-bar" placeholder="검색어를 입력하세요.">
+                <button type="button" id="SE_btn">검색</button></div>
+        </form>
+
+        <!--로그인-->
+        <form>
+            <div id="SE_login">
+                <button class="SE_logbtn" type="button">ID/PW 찾기</button>
+                <button class="SE_logbtn" type="button">로그인</button>
+                <button class="SE_logbtn" type="button">회원가입</button>
+            </div>
+        </form>
+                    <aside id="SE_left-sidebar">
+
+                        <input type="checkbox" id="menuicon">
+                        <label for="menuicon">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </label>
+
+                        <div class="SE_sidebar_profile">
+                            <img id="SE_profileIMG"src="#" alt="userIMG" width="200px" height="200px"  class="rounded-circle">
+                            <ul class="SE_sidebar_profile_in">
+                                <li><a href="#">로그인</a></li>
+                                <li><a href="#">마이페이지</a></li>
+                                <li><a href="#">쪽지</a></li>
+                                <li><a href="#">개발중</a></li>
+                                <li><a href="#">개발중</a></li>
+                            </ul>
+                        </div>
+
+                    </aside>
+
+        <section id="SE_contents">
+
+            <div id="SE_content1">
+                <ul id="SE_menu_wrap">
+                    <li class="SE_top_menu">
+                        <img id="SE_navIMG"src="#" alt="navIMG" width="20px" height="20px">
+                        <a href="#">메인 메뉴</a>
+                        <ul class="SE_sub_menu">
+                            <li><a href="#">메인 홈</a></li>
+                            <li><a href="#">마이 페이지</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="SE_top_menu">
+                        <img id="SE_navIMG"src="#" alt="navIMG" width="20px" height="20px">
+                        <a href="#">태양계 소식지</a>
+                        <ul class="SE_sub_menu">
+                            <li><a href="#">공지사항</a></li>
+                            <li><a href="#">이용정책</a></li>
+                            <li><a href="#">이벤트 안내</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="SE_top_menu">
+                        <img id="SE_navIMG"src="#" alt="navIMG" width="20px" height="20px">
+                        <a href="#">주제별 갤럭시</a>
+                        <ul class="SE_sub_menu">
+                            <li><a href="#">스포츠</a></li>
+                            <li><a href="#">문학</a></li>
+                            <li><a href="#">문화</a></li>
+                            <li><a href="#">게임</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="SE_top_menu">
+                        <img id="SE_navIMG"src="#" alt="navIMG" width="20px" height="20px">
+                        <a href="#">마이너 갤럭시</a>
+                        <ul class="SE_sub_menu">
+                            <li><a href="#">유머</a></li>
+                            <li><a href="#">취미</a></li>
+                            <li><a href="#">여행</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="SE_top_menu">
+                        <img id="SE_navIMG"src="#" alt="navIMG" width="20px" height="20px">
+                        <a href="#">태양계 놀이터</a>
+                        <ul class="SE_sub_menu">
+                            <li><a href="#">외계인 잡기</a></li>
+                            <li><a href="#">행성 맞추기</a></li>
+                            <li><a href="#">개발중</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="SE_top_menu">
+                        <img id="SE_navIMG"src="#" alt="navIMG" width="20px" height="20px">
+                        <a href="#">스타 콜로세움</a>
+                        <ul class="SE_sub_menu">
+                            <li><a href="#">개발중</a></li>
+                            <li><a href="#">개발중</a></li>
+                            <li><a href="#">맞짱 게시판</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+
+            <aside id="SE_right-sidebar">
+                <!-- <h1> 우측 사이드바</h1>
+                <h1> 기능없는상태</h1> -->
+            </aside>
+
+            <div id="SE_content2">  <!--컨텐츠 img영역. CSS SE_content2에 background에 이미지를 삽입하는 방식으로 제작.-->
+                <div class="s1"><a class="ss1" href="#">항목1</a></div>
+                <div class="s2"><a class="ss2" href="#">항목2</a></div>
+                <div class="s3"><a class="ss3" href="#">항목3</a></div>
+                <div class="s4"><a class="ss4" href="#">항목4</a></div>
+                <div class="s5"><a class="ss5" href="#">항목5</a></div>
+                <div class="s6"><a class="ss6" href="#">항목6</a></div>
+
+            </div>
+
+            <div id="SE_content3">
+                <div id="SE_BEST_list">
+                    <div id="SE_BEST_list_title"><a id="board_title" href="#"><h1>인기 BEST</h1></a></div>
+            
+                    <div id="SE_thumbnails"> <!--컨텐츠 제목-->
+                     <a href="#"><div class="SE_BEST"><div class="BEST_thumbnail"><div class="BEST_substance"><h3>인기글 제목</h3></div></div></div></a>
+                     <a href="#"><div class="SE_BEST"><div class="BEST_thumbnail"><div class="BEST_substance"><h3>인기글 제목</h3></div></div></div></a>
+                     <a href="#"><div class="SE_BEST"><div class="BEST_thumbnail"><div class="BEST_substance"><h3>인기글 제목</h3></div></div></div></a>
+                     <a href="#"><div class="SE_BEST"><div class="BEST_thumbnail"><div class="BEST_substance"><h3>인기글 제목</h3></div></div></div></a>
+                    </div>
+            
+                </div>
+
+                <div id="SE_sub2">
+                    <div class="SE_ranking_title"><a id="board_title" href="#">오늘의 HOT GALAXY </a> | <a id="board_title" href="#"> 실시간 HOT PLANET</a></div>
+                    <div class="SE_ranking"></div>
+                </div>
+
+            <div id="SE_content4">
+                <div id="SE_sub3">
+                    <div class="SE_new_post_title"><a id="board_title" href=""><h3>최근 생성 된 게시판</h3></a></div>
+                    <div class="SE_new_post"></div>
+                </div>
+
+                <div id="SE_sub4">
+                    <ul class="SE_sub4_title" style="z-index:1">
+
+                        <li class="SE_sub4_menu">
+                            <a class="bp1" href="#">잡담</a>
+                        </li>
+                    
+                        <li class="SE_sub4_menu">
+                            <a class="bp1" href="#">일상</a>
+                        </li>
+                    
+                        <li class="SE_sub4_menu">
+                            <a class="bp1"href="#">고민</a>
+                        </li>
+                    
+                        <li class="SE_sub4_menu">
+                            <a class="bp1"href="#">유머</a>
+                        </li>
+                        
+                        <li class="SE_sub4_menu">
+                            <a class="bp1"href="#">여행</a>
+                        </li>
+                    
+                        <li class="SE_sub4_menu">
+                            <a class="bp1"href="#">코딩</a>
+                        </li>
+                    </ul>
+                    <div class="SE_sub4_content"></div>
+                </div>
+            </div>
+
+            <div id="SE_content5">
+                <div id="SE_sub5">
+                    <div class="SE_board1_title"><a id="board_title" href=""><h3>임시 게시판 1호</h3></a></div>
+                    <div class="SE_board1"></div>
+                </div>
+
+                <div id="SE_sub6">
+                    <div class="SE_board2_title"><a id="board_title" href=""><h3>임시 게시판 2호</h3></a></div>
+                    <div class="SE_board2"></div>
+                </div>
+            </div>
+
+            <div id="SE_content6">
+                <div id="SE_sub7">
+                    <div class="SE_board3_title"><a id="board_title" href=""><h3>임시 게시판 3호</h3></a></div>
+                    <div class="SE_board3"></div>
+                </div>
+            </div>
+
+            <div id="SE_content7">
+                <div id="SE_sub8">
+                    <div class="SE_board4_title"><a id="board_title" href=""><h3>임시 게시판 4호</h3></a></div>
+                    <div class="SE_board4"></div>
+                </div>
+            </div>
+
+        </section>
+
+        <section id="SE_contents2">
+            <div id="SE_banner1"><h1>배너자리</h1></div>
+        </section>
+
+        <section id="SE_contents3">
+            <div id="SE_banner2"><h1>배너자리</h1></div>
+        </section>
+
+        <footer id="SE_footer">
+            <p><h3> <a href="#">서비스 소개</a> / <a href="#">이용약관</a> / <a href="#">개인정보 취급방침</a> /<a href="#">비즈니스 문의</a> / <a href="#">SNS</a> / <a href="#">이메일</a> /<a href="#">연락처</a></h3></p>
+            <p><h3>Copyright (c) <a href="#">www.solarembassy.com</a> All rights reserved.</h3></p>
+        </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가로메뉴풀이</title>
+    <style>
+        *{margin: 0; padding: 0;}
+        ul{list-style: none;}
+        a{text-decoration: none; color: white; display: block;}
+
+        #menu_wrap{
+            width: 1200px;
+            height: 80px;
+            border: 1px solid red;
+            margin: 0 auto;
+        }
+
+        .top_menu{
+            width: 25%;
+            height: 100%;
+            background-color: coral;
+            float: left;
+            text-align: center;
+            font: 900 22px/100px'';
+            transition-duration: 0.5s;
+        }
+
+        .sub_menu{
+            width: 100%;
+            height: 0;
+            overflow: hidden;
+            background-color: pink;
+            transition-duration: 0.5s;
+        }
+
+        .sub_menu>li{
+            width: 100%;
+            height: 100px;
+            border-bottom: 1px solid gray;
+            box-sizing: border-box;
+            font: 500 18px/100px '';
+        }
+
+        .top_menu.top_menu:hover{
+            background-color: hotpink;
+        }
+
+        /* 1200/4=300 */
+        .top_menu:hover>.sub_menu{
+            height: 300px;
+        }
+
+        .sub_menu>li:hover{
+            background-color: hotpink;
+            transition-duration: 0.5s;
+        }
+    
+
+        /* 서브메뉴 헤이트값 0에 오버플로우 히든 */
+        
+
+    </style>
+</head>
+<body>
+</body>
+
+    <ul id="menu_wrap">
+
+        <li class="top_menu">
+            <a href="#">상위메뉴</a>
+            <ul class="sub_menu">
+                <li><a href="#">하위메뉴</a></li>
+                <li><a href="#">하위메뉴</a></li>
+                <li><a href="#">하위메뉴</a></li>
+            </ul>
+        </li>
+
+        <li class="top_menu">
+            <a href="#">상위메뉴</a>
+            <ul class="sub_menu">
+                <li><a href="#">하위메뉴</a></li>
+                <li><a href="#">하위메뉴</a></li>
+                <li><a href="#">하위메뉴</a></li>
+            </ul>
+        </li>
+
+        <li class="top_menu">
+            <a href="#">상위메뉴</a>
+            <ul class="sub_menu">
+                <li><a href="#">하위메뉴</a></li>
+                <li><a href="#">하위메뉴</a></li>
+                <li><a href="#">하위메뉴</a></li>
+            </ul>
+        </li>
+
+        <li class="top_menu">
+            <a href="#">상위메뉴</a>
+            <ul class="sub_menu">
+                <li><a href="#">하위메뉴</a></li>
+                <li><a href="#">하위메뉴</a></li>
+                <li><a href="#">하위메뉴</a></li>
+            </ul>
+        </li>
+
+
+    </ul>
+
+
+</body>
+</html>
